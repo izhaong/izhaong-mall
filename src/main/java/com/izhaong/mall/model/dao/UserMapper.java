@@ -20,5 +20,5 @@ public interface UserMapper {
 
     User selectByName(String record);
 
-    User selectLogin(@Param("userName") String username, @Param("password") String md5Password);
+    User selectLogin(@Param("username") String username, @Param("password") String md5Password);
 }

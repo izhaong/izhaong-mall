@@ -7,7 +7,7 @@ import com.izhaong.mall.model.pojo.User;
 public interface UserService {
     User getUser();
 
-    void register(String userName, String password) throws MallException;
+    void register(String username, String password) throws MallException;
 
     User login(String username, String password) throws MallException;
 

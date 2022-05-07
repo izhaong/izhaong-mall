@@ -26,15 +26,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(String userName, String password) throws MallException {
+    public void register(String username, String password) throws MallException {
         //查询用户名是否存在，不允许重名
-        User result = userMapper.selectByName(userName);
+        User result = userMapper.selectByName(username);
         if (result != null) {
             throw new MallException(MallExceptionEnum.NAME_EXISTED);
         }
         // 存入sql
         User user = new User();
-        user.setUsername(userName);
+        user.setUsername(username);
         try {
             user.setPassword(MD5Utils.getMD5Str(password));
         } catch (NoSuchAlgorithmException e) {
@@ -49,14 +49,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String userName, String password) throws MallException {
+    public User login(String username, String password) throws MallException {
         String md5Password = null;
         try {
             md5Password = MD5Utils.getMD5Str((password));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        User user = userMapper.selectLogin(userName, md5Password);
+        User user = userMapper.selectLogin(username, md5Password);
         if (user == null) {
             throw new MallException(MallExceptionEnum.WRONG_PASSWORD);
         }
