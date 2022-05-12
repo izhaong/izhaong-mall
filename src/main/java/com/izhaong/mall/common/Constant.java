@@ -2,7 +2,9 @@ package com.izhaong.mall.common;
 
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Constant {
     public static final String MALL_USER = "mall_user";
     public static final String SAIT = "dfa@fs1231";
