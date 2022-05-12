@@ -29,6 +29,29 @@
         from imooc_mall_product
         where name = #{name,jdbcType=VARCHAR}
     </select>
+    <select id="selectListForAdmin" resultType="com.izhaong.mall.model.pojo.Product" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from imooc_mall_product
+        order by update_time desc
+    </select>
+    <select id="selectListForCustomer" parameterType="com.izhaong.mall.model.query.ListProductQuery"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from imooc_mall_product
+        <where>
+            <if test="query.keyword != null">
+                and name like #{query.keyword}
+            </if>
+            <if test="query.categoryIds != null">
+                and category_id in
+                <foreach collection="query.categoryIds" open="(" close=")" separator="," item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from imooc_mall_product

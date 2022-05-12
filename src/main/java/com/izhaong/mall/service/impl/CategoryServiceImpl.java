@@ -75,9 +75,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Cacheable(value = "listForCustomer")
-    public List<CategoryVO> listForCustomer() {
-        System.out.println("test catch");
-        return recursSelectList(0);
+    public List<CategoryVO> listForCustomer(Integer parentId) {
+        return recursSelectList(parentId);
     }
 
     public List<CategoryVO> recursSelectList(Integer parentId) {
