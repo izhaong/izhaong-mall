@@ -9,10 +9,7 @@ import com.izhaong.mall.service.UserService;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,7 +26,9 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseBody
-    public ApiRestResponse register(@RequestParam String username, @RequestParam String password) throws MallException {
+    public ApiRestResponse register(@RequestBody User user) throws MallException {
+        String username = user.getUsername();
+        String password  = user.getPassword();
         if (StringUtils.isNullOrEmpty(username)) {
             return ApiRestResponse.error(MallExceptionEnum.NEED_USER_NAME);
         }
@@ -46,23 +45,24 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public ApiRestResponse login(@RequestParam String username, @RequestParam String password, HttpSession session) {
-        if (StringUtils.isNullOrEmpty(username)) {
+//    public ApiRestResponse login(@RequestParam String username, @RequestParam String password, HttpSession session) {
+    public ApiRestResponse login(@RequestBody User user, HttpSession session) {
+        if (StringUtils.isNullOrEmpty(user.getUsername())) {
             return ApiRestResponse.error(MallExceptionEnum.NEED_USER_NAME);
         }
-        if (StringUtils.isNullOrEmpty(password)) {
+        if (StringUtils.isNullOrEmpty(user.getPassword())) {
             return ApiRestResponse.error(MallExceptionEnum.NEED_PASSWORD);
         }
-        if (password.length() < 8) {
+        if (user.getPassword().length() < 6) {
             return ApiRestResponse.error(MallExceptionEnum.NEED_TOO_SHORT);
         }
 
-        User user = userService.login(username, password);
+        User cUser = userService.login(user.getUsername(), user.getPassword());
 
-        user.setPassword(null);
-        session.setAttribute(Constant.MALL_USER, user);
+        cUser.setPassword(null);
+        session.setAttribute(Constant.MALL_USER, cUser);
 
-        return ApiRestResponse.success(user);
+        return ApiRestResponse.success(cUser);
     }
 
     @PostMapping("/user/update")

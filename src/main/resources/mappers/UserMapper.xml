@@ -37,8 +37,8 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.izhaong.mall.model.pojo.User">
-    insert into imooc_mall_user (id, username, `password`, 
-      personalized_signature, `role`, create_time, 
+    insert into imooc_mall_user (id, username, password,
+      personalized_signature, role, create_time,
       update_time)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{personalizedSignature,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
